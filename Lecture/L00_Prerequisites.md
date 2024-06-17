@@ -24,4 +24,4 @@ To see if everything is installed properly, perform the following tests:
 
 ## What?
 
-- What find out what the different software might be used for.
+- What? Find out what the different software might be used for.
