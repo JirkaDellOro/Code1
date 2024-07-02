@@ -1,5 +1,5 @@
 ```diff
-- text in red
+- Repository is moved to https://github.com/HFUGMB24/Code1
 ```
 
 # Code1
