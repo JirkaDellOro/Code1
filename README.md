@@ -1,3 +1,7 @@
+```diff
+- text in red
+```
+
 # Code1
 Course repository for GMB module Code 1
 
