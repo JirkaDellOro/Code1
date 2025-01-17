@@ -1,0 +1,32 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-rows: 1fr minmax(auto, auto) minmax(auto, auto) 1fr;
+}
+
+fieldset {
+  margin: 2px;
+  padding: 2px;
+}
+#variable {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+#operation {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+select[name=operator] {
+  text-align: center;
+}

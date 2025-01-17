@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variables</title>
+  <link rel="stylesheet" href="Variables.css">
+</head>
+
+<body>
+  <fieldset id="variables">
+    <legend>Variables</legend>
+    <div id="variable">
+      <input type="text" name="name">
+      <select name="type">
+        <option value="number">number</option>
+        <option value="string">string</option>
+        <option value="boolean">boolean</option>
+      </select>
+      <input type="text" name="value" disabled>
+  </fieldset>
+  </div>
+
+  <fieldset id="literal">
+    <legend>Literal</legend>
+    <input type="text" name="literal">
+  </fieldset>
+
+  <fieldset id="operation">
+    <legend>Operation</legend>
+    <input type="text" name="left">
+    <select name="operator">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+      <option value="%">%</option>
+    </select>
+    <input type="text" name="right">
+  </fieldset>
+  <fieldset id="code">
+    <legend>Code</legend>
+  </fieldset>
+
+</body>
+
+</html>
