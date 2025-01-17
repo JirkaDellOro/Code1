@@ -1,3 +1,7 @@
+```diff
+- Repository is moved to https://github.com/HFUGMB24/Code1
+```
+
 # Code1
 Course repository for GMB module Code 1
 
