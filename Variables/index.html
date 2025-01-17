@@ -12,33 +12,42 @@
   <fieldset id="variables">
     <legend>Variables</legend>
     <div id="variable">
-      <input type="text" name="name">
+      <input type="text" name="name" placeholder="name" class="input">
       <select name="type">
+        <option value="">type</option>
         <option value="number">number</option>
         <option value="string">string</option>
         <option value="boolean">boolean</option>
       </select>
-      <input type="text" name="value" disabled>
+      <input type="text" name="value" placeholder="value" readonly class="drag drop right">
   </fieldset>
   </div>
 
   <fieldset id="literal">
     <legend>Literal</legend>
-    <input type="text" name="literal">
+    <input type="text" name="literal" class="input center drag">
   </fieldset>
 
-  <fieldset id="operation">
+  <fieldset>
     <legend>Operation</legend>
-    <input type="text" name="left">
-    <select name="operator">
-      <option value="+">+</option>
-      <option value="-">-</option>
-      <option value="*">*</option>
-      <option value="/">/</option>
-      <option value="%">%</option>
-    </select>
-    <input type="text" name="right">
+    <div id="operation">
+      <input type="text" name="left" readonly class="right drop">
+      <select name="operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+      </select>
+      <input type="text" name="right" readonly class="left drop">
+    </div>
+    <fieldset id="result">
+      <legend>Result</legend>
+      <input type="text" name="result" readonly  class="center drag">
+    </fieldset>
   </fieldset>
+
+
   <fieldset id="code">
     <legend>Code</legend>
   </fieldset>

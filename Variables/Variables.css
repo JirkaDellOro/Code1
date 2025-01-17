@@ -1,6 +1,7 @@
 * {
   margin: 0px;
   padding: 0px;
+  border-width: 0px;
 }
 
 body,
@@ -17,14 +18,48 @@ body {
 fieldset {
   margin: 2px;
   padding: 2px;
+  border-width: 1px;
 }
+
 #variable {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 2fr 1fr 3fr;
 }
+
 #operation {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 3fr 1fr 3fr;
+}
+
+input {
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.drag,
+.drop {
+  background-color: lightgrey;
+}
+
+.input {
+  border-width: 1px;
+}
+
+.right {
+  text-align: right;
+}
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+select {
+  background-color: rgb(184, 184, 184);
+  font-size: 1.2em;
 }
 
 select[name=operator] {
