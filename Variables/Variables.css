@@ -21,7 +21,7 @@ fieldset {
   border-width: 1px;
 }
 
-#variable {
+fieldset#variables div {
   display: grid;
   grid-template-columns: 2fr 1fr 3fr;
 }
