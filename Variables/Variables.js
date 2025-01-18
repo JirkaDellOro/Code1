@@ -5,6 +5,7 @@ window.addEventListener("drop", drop);
 window.addEventListener("change", change);
 let dropTargets;
 let dragSources;
+let literal;
 function start() {
     dragSources = [...document.querySelectorAll(".drag")];
     dropTargets = [...document.querySelectorAll(".drop")];
@@ -12,6 +13,8 @@ function start() {
         dragSource.draggable = true;
     for (let dropTarget of dropTargets)
         dropTarget.addEventListener("dragover", dragOver);
+    literal = document.querySelector("input[name=literal]");
+    literal.addEventListener("input", input);
 }
 function dragStart(_event) {
     let value = _event.target.value;
@@ -24,6 +27,9 @@ function drop(_event) {
     let value = _event.dataTransfer.getData("value");
     let target = _event.target;
     target.value = value;
+}
+function input(_event) {
+    console.log(infer(literal.value));
 }
 function change(_event) {
     let variables = [...document.querySelectorAll("fieldset#variables div")];
@@ -42,4 +48,19 @@ function change(_event) {
             dropTargets.push(value);
         }
     }
+}
+function infer(_value) {
+    if (_value == "true" || _value == "false")
+        return "boolean";
+    if (Number(_value).toString() === _value)
+        return "number";
+    let first = _value[0];
+    let last = _value[_value.length - 1];
+    let content = _value.slice(1, _value.length - 2);
+    if (first == last)
+        if (first == "'" || first == '"')
+            if (content.indexOf(first) == -1)
+                if (String(content).toString() === content)
+                    return "string";
+    return "";
 }
