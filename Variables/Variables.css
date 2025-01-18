@@ -36,9 +36,15 @@ input {
   font-size: 1.2em;
 }
 
-.drag,
+
+.drag {
+  background-color: lightgrey;
+  cursor: copy;
+}
+
 .drop {
   background-color: lightgrey;
+  cursor: alias;
 }
 
 .input {
@@ -60,6 +66,9 @@ input {
 select {
   background-color: rgb(184, 184, 184);
   font-size: 1.2em;
+  appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
 }
 
 select[name=operator] {
