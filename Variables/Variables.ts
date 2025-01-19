@@ -26,11 +26,11 @@ function start(): void {
 function dragStart(_event: DragEvent): void {
   let value: string = (<Input>_event.target).value;
   let converted: Types = convert(value);
-  if (typeof(converted) == "undefined")
+  if (typeof (converted) == "undefined")
     _event.preventDefault();
-  
+
   _event.dataTransfer!.setData("value", value)
-  _event.dataTransfer!.setData("type", typeof(converted))
+  _event.dataTransfer!.setData("type", typeof (converted))
 }
 
 function dragOver(_event: DragEvent): void {
@@ -47,11 +47,8 @@ function drop(_event: DragEvent): void {
 function input(_event: Event): void {
   let type: string = typeof (convert(literal.value));
   getInputByName("type", literal.parentElement).value = type;
-  if (literal.value != "" && type == "undefined")
-    literal.setCustomValidity("unkown type");
-  else
-    literal.setCustomValidity("");
-
+  
+  literal.setAttribute("invalid", String(literal.value != "" && type == "undefined"));
 }
 
 function change(_event?: Event): void {
@@ -70,9 +67,11 @@ function operate(): void {
     "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right
   }
   let result: Types = results[operator];
-  if (typeof(result) == "string")
+  if (typeof (result) == "string")
     result = '"' + result + '"';
   output.value = String(result);
+
+  output.setAttribute("invalid", String(output.value == "NaN"));
 }
 
 function getInputByName(_name: string, _from: HTMLElement | null = null): Input {

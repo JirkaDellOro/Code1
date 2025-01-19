@@ -36,10 +36,7 @@ function drop(_event) {
 function input(_event) {
     let type = typeof (convert(literal.value));
     getInputByName("type", literal.parentElement).value = type;
-    if (literal.value != "" && type == "undefined")
-        literal.setCustomValidity("unkown type");
-    else
-        literal.setCustomValidity("");
+    literal.setAttribute("invalid", String(literal.value != "" && type == "undefined"));
 }
 function change(_event) {
     validateVariables();
@@ -58,6 +55,7 @@ function operate() {
     if (typeof (result) == "string")
         result = '"' + result + '"';
     output.value = String(result);
+    output.setAttribute("invalid", String(output.value == "NaN"));
 }
 function getInputByName(_name, _from = null) {
     return (_from ? _from : document).querySelector(`input[name=${_name}]`);

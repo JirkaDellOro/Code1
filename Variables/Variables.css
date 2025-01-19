@@ -41,7 +41,7 @@ input {
   font-size: 1.2em;
 }
 
-input:invalid {
+input[invalid=true] {
   background-color: coral;
 }
 
