@@ -42,7 +42,7 @@ input {
 }
 
 input:invalid {
-  background-color: red;
+  background-color: coral;
 }
 
 

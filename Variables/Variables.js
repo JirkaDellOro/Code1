@@ -18,7 +18,11 @@ function start() {
 }
 function dragStart(_event) {
     let value = _event.target.value;
+    let converted = convert(value);
+    if (typeof (converted) == "undefined")
+        _event.preventDefault();
     _event.dataTransfer.setData("value", value);
+    _event.dataTransfer.setData("type", typeof (converted));
 }
 function dragOver(_event) {
     _event.preventDefault();
@@ -32,7 +36,7 @@ function drop(_event) {
 function input(_event) {
     let type = typeof (convert(literal.value));
     getInputByName("type", literal.parentElement).value = type;
-    if (literal.value != "" && type == "")
+    if (literal.value != "" && type == "undefined")
         literal.setCustomValidity("unkown type");
     else
         literal.setCustomValidity("");
