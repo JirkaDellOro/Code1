@@ -38,7 +38,13 @@ function drop(_event: DragEvent): void {
 }
 
 function input(_event: Event): void {
-  console.log(infer(literal.value))
+  let type: string = infer(literal.value);
+  (<Input>literal.parentElement?.querySelector("input[name=type]")).value = type;
+  if (literal.value != "" && type == "")
+    literal.setCustomValidity("unkown type");
+  else
+    literal.setCustomValidity("");
+
 }
 
 function change(_event: Event): void {

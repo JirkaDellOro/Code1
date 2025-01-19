@@ -26,6 +26,11 @@ fieldset#variables div {
   grid-template-columns: 2fr 1fr 3fr;
 }
 
+#literal {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
 #operation {
   display: grid;
   grid-template-columns: 3fr 1fr 3fr;
@@ -34,6 +39,10 @@ fieldset#variables div {
 input {
   width: 100%;
   font-size: 1.2em;
+}
+
+input:invalid {
+  background-color: red;
 }
 
 

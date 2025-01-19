@@ -29,7 +29,13 @@ function drop(_event) {
     target.value = value;
 }
 function input(_event) {
-    console.log(infer(literal.value));
+    var _a;
+    let type = infer(literal.value);
+    ((_a = literal.parentElement) === null || _a === void 0 ? void 0 : _a.querySelector("input[name=type]")).value = type;
+    if (literal.value != "" && type == "")
+        literal.setCustomValidity("unkown type");
+    else
+        literal.setCustomValidity("");
 }
 function change(_event) {
     let variables = [...document.querySelectorAll("fieldset#variables div")];
