@@ -21,6 +21,11 @@ fieldset {
   border-width: 1px;
 }
 
+fieldset#variables {
+  overflow-y: scroll;
+  padding-bottom: 15px;
+}
+
 fieldset#variables div {
   display: grid;
   grid-template-columns: 2fr 1fr 3fr;
@@ -43,6 +48,10 @@ input {
 
 input[invalid=true] {
   background-color: coral;
+}
+
+input[value=1] {
+  background-color: aquamarine;
 }
 
 
