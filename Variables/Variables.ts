@@ -24,34 +24,63 @@ function start(): void {
   literal.addEventListener("input", input);
 
   variables = document.querySelector("fieldset#variables")!;
-  variables.addEventListener("pointerdown", addVariable);
+  variables.addEventListener("pointerdown", clickVariable);
+
+  parseQuery();
 }
 
-function addVariable(_event: PointerEvent): void {
+function parseQuery(): void {
+  let query: string = location.search.slice(1);
+  let variables: string[] = query.split("|");
+  for (let variable of variables) {
+    let quotes: string[] = variable.split(",").map(_value => '"' + _value + '"');
+    variable = "[" + quotes.join(",") + "]";
+    let parsed: string[] = JSON.parse(variable);
+    if (parsed[1] == "string")
+      parsed[2] = '"' + parsed[2] + '"';
+    let div: HTMLDivElement = addVariable();
+    getInputByName("name", div).value = parsed[0];
+    div.querySelector("select")!.value = parsed[1];
+    getInputByName("value", div).value = parsed[2];
+  }
+  validateVariables();
+}
+
+function clickVariable(_event: PointerEvent): void {
   if (_event.target != _event.currentTarget)
     return;
-  let template: HTMLTemplateElement = document.querySelector("template")!;
-  let clone: Node = template.content.cloneNode(true);
-  variables.appendChild(clone);
+  addVariable();
 }
 
+function addVariable(): HTMLDivElement {
+  let template: HTMLTemplateElement = document.querySelector("template")!;
+  let clone: DocumentFragment = <DocumentFragment>template.content.cloneNode(true); // Clone the fragment
+  let div: HTMLDivElement = clone.querySelector("div")!; // Ensure you're selecting the correct element
+  variables.appendChild(clone); // Append the fragment's contents
+  return div; // Return the actual div, not the fragment
+}
 
 function dragStart(_event: DragEvent): void {
   let target: Input = <Input>_event.target;
   let value: string = target.value;
+  _event.dataTransfer!.setData("value", value)
 
   if (target.name == "name") {
-    _event.dataTransfer!.setData("value", value)
-    _event.dataTransfer!.setData("variable", value);
+    _event.dataTransfer!.setData("source", "variable");
     _event.dataTransfer!.setData("type", target.parentElement!.querySelector("select")!.value);
     return;
+  }
+  if (target.name == "literal") {
+    _event.dataTransfer!.setData("source", "literal");
+  }
+  if (target.name == "result") {
+    _event.dataTransfer!.setData("source", "result");
   }
 
   let converted: Types = convert(value);
   if (typeof (converted) == "undefined")
     _event.preventDefault();
 
-  _event.dataTransfer!.setData("value", value)
   _event.dataTransfer!.setData("type", typeof (converted))
 }
 
@@ -61,17 +90,28 @@ function dragOver(_event: DragEvent): void {
 
 function drop(_event: DragEvent): void {
   let value: string = _event.dataTransfer!.getData("value");
-  let variable: string = _event.dataTransfer!.getData("variable");
+  let source: string = _event.dataTransfer!.getData("source");
   let type: string = _event.dataTransfer!.getData("type");
   let target: Input = <Input>_event.target;
   let parent: HTMLElement = target.parentElement!;
 
   if (parent.getAttribute("name") == "variable")
+    // drop on variable only if types match
     if (parent.querySelector("select")!.value != type)
       return;
+    else
+      if (source == "result") {
+        let operation: string = getInputByName("left").value + " ";
+        operation += (<Input>document.querySelector("select[name=operator]")!).value;
+        operation += " " + getInputByName("right").value;
+
+        addCode(`${getInputByName("name", parent).value} = ${operation};`)
+      }
+      else
+        addCode(`${getInputByName("name", parent).value} = ${value};`)
 
   target.value = value;
-  change()
+  change();
 }
 
 function input(_event: Event): void {
@@ -120,6 +160,12 @@ function validateVariables(): void {
     let value: Input = getInputByName("value", variable);
     let type: HTMLSelectElement = <HTMLSelectElement>variable.querySelector("select")!
     if (name.value && type.value) {
+      if (!name.disabled)
+        if (value)
+          addCode(`let ${name.value}: ${type.value} = ${value.value};`);
+        else
+          addCode(`let ${name.value}: ${type.value};`);
+
       name.disabled = true;
       type.disabled = true;
       value.disabled = false;
@@ -127,10 +173,12 @@ function validateVariables(): void {
       name.classList.add("drag");
       value.addEventListener("dragover", dragOver);
       name.draggable = true;
-      // dragSources.push(name);
-      // dropTargets.push(value);
     }
   }
+}
+
+function addCode(_code: string) {
+  document.querySelector("fieldset#code")!.innerHTML += (_code + "</br>");
 }
 
 function convert(_value: string): Types {
@@ -167,3 +215,4 @@ function convert(_value: string): Types {
 
   // return ""
 }
+

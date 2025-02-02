@@ -17,28 +17,55 @@ function start() {
     literal = getInputByName("literal");
     literal.addEventListener("input", input);
     variables = document.querySelector("fieldset#variables");
-    variables.addEventListener("pointerdown", addVariable);
+    variables.addEventListener("pointerdown", clickVariable);
+    parseQuery();
 }
-function addVariable(_event) {
+function parseQuery() {
+    let query = location.search.slice(1);
+    let variables = query.split("|");
+    for (let variable of variables) {
+        let quotes = variable.split(",").map(_value => '"' + _value + '"');
+        variable = "[" + quotes.join(",") + "]";
+        let parsed = JSON.parse(variable);
+        if (parsed[1] == "string")
+            parsed[2] = '"' + parsed[2] + '"';
+        let div = addVariable();
+        getInputByName("name", div).value = parsed[0];
+        div.querySelector("select").value = parsed[1];
+        getInputByName("value", div).value = parsed[2];
+    }
+    validateVariables();
+}
+function clickVariable(_event) {
     if (_event.target != _event.currentTarget)
         return;
+    addVariable();
+}
+function addVariable() {
     let template = document.querySelector("template");
-    let clone = template.content.cloneNode(true);
-    variables.appendChild(clone);
+    let clone = template.content.cloneNode(true); // Clone the fragment
+    let div = clone.querySelector("div"); // Ensure you're selecting the correct element
+    variables.appendChild(clone); // Append the fragment's contents
+    return div; // Return the actual div, not the fragment
 }
 function dragStart(_event) {
     let target = _event.target;
     let value = target.value;
+    _event.dataTransfer.setData("value", value);
     if (target.name == "name") {
-        _event.dataTransfer.setData("value", value);
-        _event.dataTransfer.setData("variable", value);
+        _event.dataTransfer.setData("source", "variable");
         _event.dataTransfer.setData("type", target.parentElement.querySelector("select").value);
         return;
+    }
+    if (target.name == "literal") {
+        _event.dataTransfer.setData("source", "literal");
+    }
+    if (target.name == "result") {
+        _event.dataTransfer.setData("source", "result");
     }
     let converted = convert(value);
     if (typeof (converted) == "undefined")
         _event.preventDefault();
-    _event.dataTransfer.setData("value", value);
     _event.dataTransfer.setData("type", typeof (converted));
 }
 function dragOver(_event) {
@@ -46,13 +73,22 @@ function dragOver(_event) {
 }
 function drop(_event) {
     let value = _event.dataTransfer.getData("value");
-    let variable = _event.dataTransfer.getData("variable");
+    let source = _event.dataTransfer.getData("source");
     let type = _event.dataTransfer.getData("type");
     let target = _event.target;
     let parent = target.parentElement;
     if (parent.getAttribute("name") == "variable")
+        // drop on variable only if types match
         if (parent.querySelector("select").value != type)
             return;
+        else if (source == "result") {
+            let operation = getInputByName("left").value + " ";
+            operation += document.querySelector("select[name=operator]").value;
+            operation += " " + getInputByName("right").value;
+            addCode(`${getInputByName("name", parent).value} = ${operation};`);
+        }
+        else
+            addCode(`${getInputByName("name", parent).value} = ${value};`);
     target.value = value;
     change();
 }
@@ -94,6 +130,11 @@ function validateVariables() {
         let value = getInputByName("value", variable);
         let type = variable.querySelector("select");
         if (name.value && type.value) {
+            if (!name.disabled)
+                if (value)
+                    addCode(`let ${name.value}: ${type.value} = ${value.value};`);
+                else
+                    addCode(`let ${name.value}: ${type.value};`);
             name.disabled = true;
             type.disabled = true;
             value.disabled = false;
@@ -101,10 +142,11 @@ function validateVariables() {
             name.classList.add("drag");
             value.addEventListener("dragover", dragOver);
             name.draggable = true;
-            // dragSources.push(name);
-            // dropTargets.push(value);
         }
     }
+}
+function addCode(_code) {
+    document.querySelector("fieldset#code").innerHTML += (_code + "</br>");
 }
 function convert(_value) {
     try {
