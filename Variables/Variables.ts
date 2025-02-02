@@ -64,17 +64,14 @@ function dragStart(_event: DragEvent): void {
   let target: Input = <Input>_event.target;
   let value: string = target.value;
   _event.dataTransfer!.setData("value", value)
+  _event.dataTransfer!.setData("source", target.name);
+
 
   if (target.name == "name") {
-    _event.dataTransfer!.setData("source", "variable");
     _event.dataTransfer!.setData("type", target.parentElement!.querySelector("select")!.value);
+    _event.dataTransfer!.setData("name", target.value);
+    _event.dataTransfer!.setData("value", getInputByName("value", target.parentElement).value);
     return;
-  }
-  if (target.name == "literal") {
-    _event.dataTransfer!.setData("source", "literal");
-  }
-  if (target.name == "result") {
-    _event.dataTransfer!.setData("source", "result");
   }
 
   let converted: Types = convert(value);
@@ -92,10 +89,11 @@ function drop(_event: DragEvent): void {
   let value: string = _event.dataTransfer!.getData("value");
   let source: string = _event.dataTransfer!.getData("source");
   let type: string = _event.dataTransfer!.getData("type");
+  let name: string = _event.dataTransfer!.getData("name");
   let target: Input = <Input>_event.target;
   let parent: HTMLElement = target.parentElement!;
 
-  if (parent.getAttribute("name") == "variable")
+  if (parent.getAttribute("name") == "variable") {
     // drop on variable only if types match
     if (parent.querySelector("select")!.value != type)
       return;
@@ -107,10 +105,15 @@ function drop(_event: DragEvent): void {
 
         addCode(`${getInputByName("name", parent).value} = ${operation};`)
       }
+      else if (source == "name")
+        addCode(`${getInputByName("name", parent).value} = ${name};`)
       else
         addCode(`${getInputByName("name", parent).value} = ${value};`)
+    target.value = value;
+  }
+  else
+    target.value = name ? name : value;
 
-  target.value = value;
   change();
 }
 
@@ -161,7 +164,7 @@ function validateVariables(): void {
     let type: HTMLSelectElement = <HTMLSelectElement>variable.querySelector("select")!
     if (name.value && type.value) {
       if (!name.disabled)
-        if (value)
+        if (value.value)
           addCode(`let ${name.value}: ${type.value} = ${value.value};`);
         else
           addCode(`let ${name.value}: ${type.value};`);
