@@ -3,6 +3,7 @@ window.addEventListener("load", start);
 window.addEventListener("dragstart", dragStart);
 window.addEventListener("drop", drop);
 window.addEventListener("change", change);
+window.addEventListener("pointerdown", (_event) => _event.preventDefault(), true);
 let dropTargets;
 let dragSources;
 let literal;
