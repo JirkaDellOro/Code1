@@ -74,7 +74,7 @@ function drop(_event) {
     let name = _event.dataTransfer.getData("name");
     let target = _event.target;
     let parent = target.parentElement;
-    target.value = "DROP!";
+    target.value = `DROP! ${value} ${type}`;
     if (parent.getAttribute("name") == "variable") {
         // drop on variable only if types match
         if (parent.querySelector("select").value != type)
