@@ -1,11 +1,12 @@
 {
   "auto-version-increment.version.file": [
+
     {
       "path": "index.html",
       "prefix": "<meta version='",
       "sufix": "'>",
       "primary": true,
-      "useWorkspacePath": false
+      "useWorkspacePath": true
     }
   ]
 }
