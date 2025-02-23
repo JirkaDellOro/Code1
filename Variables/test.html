@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop on Mobile</title>
+    <style>
+        #dragItem {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            text-align: center;
+            line-height: 100px;
+            cursor: pointer;
+        }
+
+        #dropArea {
+            width: 300px;
+            height: 300px;
+            background-color: lightgray;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+<div id="dropArea" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div id="dragItem" draggable="true" ondragstart="drag(event)">Drag me</div>
+</div>
+
+<script>
+    function allowDrop(event) {
+        event.preventDefault();  // Not allowed by default, so we prevent the default behavior
+    }
+
+    function drag(event) {
+        event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        var data = event.dataTransfer.getData("text");
+        var draggedElement = document.getElementById(data);
+        var dropArea = document.getElementById("dropArea");
+        
+        // Calculate new position for the dragged element
+        var x = event.clientX - dropArea.offsetLeft - draggedElement.offsetWidth / 2;
+        var y = event.clientY - dropArea.offsetTop - draggedElement.offsetHeight / 2;
+
+        draggedElement.style.position = "absolute";
+        draggedElement.style.left = x + "px";
+        draggedElement.style.top = y + "px";
+    }
+</script>
+
+</body>
+</html>

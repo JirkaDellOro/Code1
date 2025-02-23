@@ -2,7 +2,7 @@
   "auto-version-increment.version.file": [
 
     {
-      "path": "index.html",
+      "path": ".\\index.html",
       "prefix": "<meta version='",
       "sufix": "'>",
       "primary": true,
