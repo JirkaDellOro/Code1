@@ -2,8 +2,8 @@
   "auto-version-increment.version.file": [
     {
       "path": "index.html",
-      "prefix": "version=\"",
-      "sufix": "\"",
+      "prefix": "<meta version='",
+      "sufix": "'>",
       "primary": true,
       "useWorkspacePath": false
     }
