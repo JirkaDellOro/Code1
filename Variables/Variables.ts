@@ -94,7 +94,7 @@ function drop(_event: DragEvent): void {
   let target: Input = <Input>_event.target;
   let parent: HTMLElement = target.parentElement!;
 
-  target.value = `DROP! ${value} ${type}`;
+  target.value = `DROX! ${value} ${type}`;
 return;
   if (parent.getAttribute("name") == "variable") {
     // drop on variable only if types match
