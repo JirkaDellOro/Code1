@@ -17,7 +17,7 @@ function start() {
     literal = getInputByName("literal");
     literal.addEventListener("input", input);
     variables = document.querySelector("fieldset#variables");
-    variables.addEventListener("pointerdown", clickVariable);
+    variables.addEventListener("dblclick", clickVariable);
     parseQuery();
 }
 function parseQuery() {
@@ -72,14 +72,8 @@ function dragOver(_event) {
 function drop(_event) {
     let transfer = _event.dataTransfer.getData("text");
     let data = JSON.parse(transfer);
-    // let value: string = _event.dataTransfer!.getData("value");
-    // let source: string = _event.dataTransfer!.getData("source");
-    // let type: string = _event.dataTransfer!.getData("type");
-    // let name: string = _event.dataTransfer!.getData("name");
     let target = _event.target;
     let parent = target.parentElement;
-    target.value = `DROX! ${data.value} ${data.type}`;
-    // return;
     if (parent.getAttribute("name") == "variable") {
         // drop on variable only if types match
         if (parent.querySelector("select").value != data.type)
@@ -144,6 +138,7 @@ function validateVariables() {
                 else
                     addCode(`let ${name.value}: ${type.value};`);
             name.disabled = true;
+            name.readOnly = true;
             type.disabled = true;
             value.disabled = false;
             value.classList.add("drop");

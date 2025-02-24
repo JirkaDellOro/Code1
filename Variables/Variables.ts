@@ -26,7 +26,7 @@ function start(): void {
   literal.addEventListener("input", input);
 
   variables = document.querySelector("fieldset#variables")!;
-  variables.addEventListener("pointerdown", clickVariable);
+  variables.addEventListener("dblclick", clickVariable);
 
   parseQuery();
 }
@@ -48,7 +48,7 @@ function parseQuery(): void {
   validateVariables();
 }
 
-function clickVariable(_event: PointerEvent): void {
+function clickVariable(_event: MouseEvent): void {
   if (_event.target != _event.currentTarget)
     return;
   addVariable();
@@ -92,15 +92,9 @@ function dragOver(_event: DragEvent): void {
 function drop(_event: DragEvent): void {
   let transfer: string = _event.dataTransfer!.getData("text");
   let data: Data = JSON.parse(transfer);
-  // let value: string = _event.dataTransfer!.getData("value");
-  // let source: string = _event.dataTransfer!.getData("source");
-  // let type: string = _event.dataTransfer!.getData("type");
-  // let name: string = _event.dataTransfer!.getData("name");
   let target: Input = <Input>_event.target;
   let parent: HTMLElement = target.parentElement!;
 
-  target.value = `DROX! ${data.value} ${data.type}`;
-  // return;
   if (parent.getAttribute("name") == "variable") {
     // drop on variable only if types match
     if (parent.querySelector("select")!.value != data.type)
@@ -178,6 +172,7 @@ function validateVariables(): void {
           addCode(`let ${name.value}: ${type.value};`);
 
       name.disabled = true;
+      name.readOnly = true;
       type.disabled = true;
       value.disabled = false;
       value.classList.add("drop");
