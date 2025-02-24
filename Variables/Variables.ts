@@ -7,6 +7,7 @@ window.addEventListener("change", change);
 type Input = HTMLInputElement;
 type List = Input[];
 type Types = string | number | boolean | undefined;
+type Data = { type?: string, name?: string, value: string, source?: string };
 let dropTargets: List;
 let dragSources: List;
 let literal: Input;
@@ -64,14 +65,15 @@ function addVariable(): HTMLDivElement {
 function dragStart(_event: DragEvent): void {
   let target: Input = <Input>_event.target;
   let value: string = target.value;
-  _event.dataTransfer!.setData("value", value)
-  _event.dataTransfer!.setData("source", target.name);
+  let data: Data = { value: value };
 
+  data.source = target.name;
 
   if (target.name == "name") {
-    _event.dataTransfer!.setData("type", target.parentElement!.querySelector("select")!.value);
-    _event.dataTransfer!.setData("name", target.value);
-    _event.dataTransfer!.setData("value", getInputByName("value", target.parentElement).value);
+    data.type = target.parentElement!.querySelector("select")!.value;
+    data.name = value;
+    data.value = getInputByName("value", target.parentElement).value;
+    _event.dataTransfer!.setData("text", JSON.stringify(data));
     return;
   }
 
@@ -79,7 +81,8 @@ function dragStart(_event: DragEvent): void {
   if (typeof (converted) == "undefined")
     _event.preventDefault();
 
-  _event.dataTransfer!.setData("type", typeof (converted))
+  data.type = typeof (converted);
+  _event.dataTransfer!.setData("text", JSON.stringify(data));
 }
 
 function dragOver(_event: DragEvent): void {
@@ -87,35 +90,37 @@ function dragOver(_event: DragEvent): void {
 }
 
 function drop(_event: DragEvent): void {
-  let value: string = _event.dataTransfer!.getData("value");
-  let source: string = _event.dataTransfer!.getData("source");
-  let type: string = _event.dataTransfer!.getData("type");
-  let name: string = _event.dataTransfer!.getData("name");
+  let transfer: string = _event.dataTransfer!.getData("text");
+  let data: Data = JSON.parse(transfer);
+  // let value: string = _event.dataTransfer!.getData("value");
+  // let source: string = _event.dataTransfer!.getData("source");
+  // let type: string = _event.dataTransfer!.getData("type");
+  // let name: string = _event.dataTransfer!.getData("name");
   let target: Input = <Input>_event.target;
   let parent: HTMLElement = target.parentElement!;
 
-  target.value = `DROX! ${value} ${type}`;
-return;
+  target.value = `DROX! ${data.value} ${data.type}`;
+  // return;
   if (parent.getAttribute("name") == "variable") {
     // drop on variable only if types match
-    if (parent.querySelector("select")!.value != type)
+    if (parent.querySelector("select")!.value != data.type)
       return;
     else
-      if (source == "result") {
+      if (data.source == "result") {
         let operation: string = getInputByName("left").value + " ";
         operation += (<Input>document.querySelector("select[name=operator]")!).value;
         operation += " " + getInputByName("right").value;
 
         addCode(`${getInputByName("name", parent).value} = ${operation};`)
       }
-      else if (source == "name")
-        addCode(`${getInputByName("name", parent).value} = ${name};`)
+      else if (data.source == "name")
+        addCode(`${getInputByName("name", parent).value} = ${data.name};`)
       else
-        addCode(`${getInputByName("name", parent).value} = ${value};`)
-    target.value = value;
+        addCode(`${getInputByName("name", parent).value} = ${data.value};`)
+    target.value = data.value;
   }
   else
-    target.value = name ? name : value;
+    target.value = data.name ? data.name : data.value;
 
   change();
 }
