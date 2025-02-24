@@ -35,12 +35,12 @@
     }
 
     function drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
+        event.dataTransfer.setData("id", event.target.id);
     }
 
     function drop(event) {
         event.preventDefault();
-        var data = event.dataTransfer.getData("text");
+        var data = event.dataTransfer.getData("id");
         var draggedElement = document.getElementById(data);
         var dropArea = document.getElementById("dropArea");
         
