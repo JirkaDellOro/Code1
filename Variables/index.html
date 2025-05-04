@@ -8,32 +8,12 @@
   <title>Variables</title>
   <link rel="stylesheet" href="Variables.css">
   <script src="Variables.js"></script>
-</head> 
-
+</head>
 
 <body>
-  <fieldset id="variables" title="Click here to start creating a new variable">
-    <legend>Variables</legend>
-    <template>
-      <div name="variable">
-        <input type="url" name="name" placeholder="name" class="input"
-          title="Enter a unique name for the variable">
-        <select name="type" title="Chose a type for the variable">
-          <option value="">type</option>
-          <option value="number">number</option>
-          <option value="string">string</option>
-          <option value="boolean">boolean</option>
-        </select>
-        <input type="url" name="value" placeholder="value" readonly disabled class="right"
-          title="Once the variable is declared with name and type, you can use it by dragging and dropping values here">
-      </div>
-    </template>
-  </fieldset>
-
   <fieldset id="literal">
     <legend>Literal</legend>
-    <input type="url" name="type" readonly class="center" title="Infered type of the literal"
-      placeholder="undefined">
+    <input type="url" name="type" readonly class="center" title="Infered type of the literal" placeholder="undefined">
     <input type="url" name="literal" class="input center drag"
       title="Type a literal value here, that will appear in code. Drag this value to use it."
       placeholder="Type a value here and drag it">
@@ -61,6 +41,23 @@
     </fieldset>
   </fieldset>
 
+  <fieldset id="variables" title="Doubleclick or doubletap here to start creating a new variable">
+    <legend>Variables</legend>
+    <span>Doubleclick or doubletap here to start creating a new variable</span>
+    <template>
+      <div name="variable">
+        <input type="url" name="name" placeholder="name" class="input" title="Enter a unique name for the variable">
+        <select name="type" title="Chose a type for the variable">
+          <option value="">type</option>
+          <option value="number">number</option>
+          <option value="string">string</option>
+          <option value="boolean">boolean</option>
+        </select>
+        <input type="url" name="value" placeholder="value" readonly disabled class="right"
+          title="Once the variable is declared with name and type, you can use it by dragging and dropping values here">
+      </div>
+    </template>
+  </fieldset>
 
   <fieldset id="code">
     <legend>Code</legend>

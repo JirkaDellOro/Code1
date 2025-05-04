@@ -17,11 +17,13 @@ function start() {
     literal = getInputByName("literal");
     literal.addEventListener("input", input);
     variables = document.querySelector("fieldset#variables");
-    variables.addEventListener("dblclick", clickVariable);
+    variables.addEventListener("dblclick", clickVariables);
     parseQuery();
 }
 function parseQuery() {
     let query = location.search.slice(1);
+    if (!query)
+        return;
     let variables = query.split("|");
     for (let variable of variables) {
         let quotes = variable.split(",").map(_value => '"' + _value + '"');
@@ -36,9 +38,11 @@ function parseQuery() {
     }
     validateVariables();
 }
-function clickVariable(_event) {
+function clickVariables(_event) {
     if (_event.target != _event.currentTarget)
         return;
+    if (variables.children[1].tagName == "SPAN")
+        variables.removeChild(variables.children[1]);
     addVariable();
 }
 function addVariable() {

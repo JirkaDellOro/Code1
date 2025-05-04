@@ -26,13 +26,16 @@ function start(): void {
   literal.addEventListener("input", input);
 
   variables = document.querySelector("fieldset#variables")!;
-  variables.addEventListener("dblclick", clickVariable);
+  variables.addEventListener("dblclick", clickVariables);
 
   parseQuery();
 }
 
 function parseQuery(): void {
   let query: string = location.search.slice(1);
+  if (!query)
+    return;
+
   let variables: string[] = query.split("|");
   for (let variable of variables) {
     let quotes: string[] = variable.split(",").map(_value => '"' + _value + '"');
@@ -48,9 +51,11 @@ function parseQuery(): void {
   validateVariables();
 }
 
-function clickVariable(_event: MouseEvent): void {
+function clickVariables(_event: MouseEvent): void {
   if (_event.target != _event.currentTarget)
     return;
+  if (variables.children[1].tagName == "SPAN")
+    variables.removeChild(variables.children[1]);
   addVariable();
 }
 
