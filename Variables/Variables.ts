@@ -21,9 +21,10 @@ function start(): void {
     dragSource.draggable = true;
   for (let dropTarget of dropTargets)
     dropTarget.addEventListener("dragover", dragOver);
-
+  
   literal = getInputByName("literal");
   literal.addEventListener("input", input);
+  literal.addEventListener("dragover", dragOver);
 
   variables = document.querySelector("fieldset#variables")!;
   variables.addEventListener("dblclick", clickVariables);
@@ -91,6 +92,8 @@ function dragStart(_event: DragEvent): void {
 }
 
 function dragOver(_event: DragEvent): void {
+  if ((<Input>_event.target).name == "literal")
+    _event.dataTransfer!.dropEffect = "none";
   _event.preventDefault();
 }
 

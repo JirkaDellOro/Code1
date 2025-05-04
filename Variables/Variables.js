@@ -16,6 +16,7 @@ function start() {
         dropTarget.addEventListener("dragover", dragOver);
     literal = getInputByName("literal");
     literal.addEventListener("input", input);
+    literal.addEventListener("dragover", dragOver);
     variables = document.querySelector("fieldset#variables");
     variables.addEventListener("dblclick", clickVariables);
     parseQuery();
@@ -71,6 +72,8 @@ function dragStart(_event) {
     _event.dataTransfer.setData("text", JSON.stringify(data));
 }
 function dragOver(_event) {
+    if (_event.target.name == "literal")
+        _event.dataTransfer.dropEffect = "none";
     _event.preventDefault();
 }
 function drop(_event) {
