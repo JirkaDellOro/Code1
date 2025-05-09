@@ -67,12 +67,12 @@ input[value=1] {
 
 
 .drag {
-  background-color: lightgrey;
+  background-color: lightblue;
   cursor: copy;
 }
 
 .drop {
-  background-color: lightgrey;
+  background-color: lightgreen;
   cursor: alias;
 }
 

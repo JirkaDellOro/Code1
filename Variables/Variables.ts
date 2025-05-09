@@ -55,12 +55,13 @@ function parseQuery(): void {
 function clickVariables(_event: MouseEvent): void {
   if (_event.target != _event.currentTarget)
     return;
-  if (variables.children[1].tagName == "SPAN")
-    variables.removeChild(variables.children[1]);
   addVariable();
 }
 
 function addVariable(): HTMLDivElement {
+  // remove call to action
+  if (variables.children[1].tagName == "SPAN")
+    variables.removeChild(variables.children[1]);
   let template: HTMLTemplateElement = document.querySelector("template")!;
   let clone: DocumentFragment = <DocumentFragment>template.content.cloneNode(true); // Clone the fragment
   let div: HTMLDivElement = clone.querySelector("div")!; // Ensure you're selecting the correct element

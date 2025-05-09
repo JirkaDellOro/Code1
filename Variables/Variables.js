@@ -42,11 +42,12 @@ function parseQuery() {
 function clickVariables(_event) {
     if (_event.target != _event.currentTarget)
         return;
-    if (variables.children[1].tagName == "SPAN")
-        variables.removeChild(variables.children[1]);
     addVariable();
 }
 function addVariable() {
+    // remove call to action
+    if (variables.children[1].tagName == "SPAN")
+        variables.removeChild(variables.children[1]);
     let template = document.querySelector("template");
     let clone = template.content.cloneNode(true); // Clone the fragment
     let div = clone.querySelector("div"); // Ensure you're selecting the correct element
