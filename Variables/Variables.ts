@@ -146,7 +146,7 @@ function operate(): void {
   let operator: string = (<Input>document.querySelector("select[name=operator]")!).value;
   let output: Input = getInputByName("result");
 
-  if (!left || !right)
+  if (left == undefined || right == undefined)
     return;
 
   let results: { [operator: string]: Types } = {

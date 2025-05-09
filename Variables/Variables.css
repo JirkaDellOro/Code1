@@ -35,6 +35,7 @@ fieldset#variables span {
   text-align: center;
   background-color: lightgrey;
   color: grey;
+  pointer-events: none;
 }
 
 fieldset#variables div {

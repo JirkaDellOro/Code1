@@ -116,7 +116,7 @@ function operate() {
     let right = convert(getInputByName("right").value);
     let operator = document.querySelector("select[name=operator]").value;
     let output = getInputByName("result");
-    if (!left || !right)
+    if (left == undefined || right == undefined)
         return;
     let results = {
         //@ts-ignore
