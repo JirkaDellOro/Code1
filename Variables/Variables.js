@@ -139,6 +139,9 @@ function validateVariables() {
             continue;
         let value = getInputByName("value", variable);
         let type = variable.querySelector("select");
+        if (!name.value.match("^[a-z]+(?:[A-Z][a-z0-9_]*)*$")) {
+            alert("watch coding styleguide on naming variables");
+        }
         if (name.value && type.value) {
             if (!name.disabled)
                 if (value.value)
