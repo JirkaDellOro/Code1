@@ -94,7 +94,7 @@ input[value=1] {
 }
 
 select {
-  background-color: rgb(184, 184, 184);
+  background-color: coral;
   font-size: 1.2em;
   appearance: none;
   text-indent: 1px;
@@ -103,4 +103,8 @@ select {
 
 select[name=operator] {
   text-align: center;
+}
+
+select:disabled {
+  background-color: rgb(184, 184, 184);
 }

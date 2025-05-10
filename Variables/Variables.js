@@ -120,7 +120,7 @@ function operate() {
         return;
     let results = {
         //@ts-ignore
-        "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right
+        "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right, "<<": left << right, ">>": left >> right
     };
     let result = results[operator];
     if (typeof (result) == "string")
@@ -139,24 +139,27 @@ function validateVariables() {
             continue;
         let value = getInputByName("value", variable);
         let type = variable.querySelector("select");
+        if (name.value == "")
+            return;
         if (!name.value.match("^[a-z]+(?:[A-Z][a-z0-9_]*)*$")) {
             alert("watch coding styleguide on naming variables");
+            return;
         }
-        if (name.value && type.value) {
-            if (!name.disabled)
-                if (value.value)
-                    addCode(`let ${name.value}: ${type.value} = ${value.value};`);
-                else
-                    addCode(`let ${name.value}: ${type.value};`);
-            name.disabled = true;
-            name.readOnly = true;
-            type.disabled = true;
-            value.disabled = false;
-            value.classList.add("drop");
-            name.classList.add("drag");
-            value.addEventListener("dragover", dragOver);
-            name.draggable = true;
-        }
+        if (!type.value)
+            return;
+        if (!name.disabled)
+            if (value.value)
+                addCode(`let ${name.value}: ${type.value} = ${value.value};`);
+            else
+                addCode(`let ${name.value}: ${type.value};`);
+        name.disabled = true;
+        name.readOnly = true;
+        type.disabled = true;
+        value.disabled = false;
+        value.classList.add("drop");
+        name.classList.add("drag");
+        value.addEventListener("dragover", dragOver);
+        name.draggable = true;
     }
 }
 function addCode(_code) {
