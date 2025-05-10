@@ -178,9 +178,15 @@ function validateVariables(): void {
       return;
 
     if (!name.value.match("^[a-z]+(?:[A-Z][a-z0-9_]*)*$")) {
-      alert("watch coding styleguide on naming variables");
+      alert("Watch coding styleguide on naming variables!");
       return;
     }
+
+    if (divs.find(_variable => _variable != variable && name.value == getInputByName("name", _variable).value)){
+      alert("A variable of that name already exists!");
+      return;
+    }
+
 
     if (!type.value)
       return;
