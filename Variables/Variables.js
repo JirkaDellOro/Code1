@@ -121,11 +121,15 @@ function operate() {
     let output = getInputByName("result");
     if (left == undefined || right == undefined)
         return;
-    let results = {
-        //@ts-ignore
-        "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right, "<<": left << right, ">>": left >> right
-    };
-    let result = results[operator];
+    // let results: { [operator: string]: Types } = {
+    //   //@ts-ignore
+    //   "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right, "<<": left << right, ">>": left >> right
+    // }
+    // let result: Types = results[operator];
+    let evaluate = "" + typeof (left) == "string" ? `'${left}'` : String(left);
+    evaluate += operator;
+    evaluate += typeof (right) == "string" ? `'${right}'` : String(right);
+    let result = eval(evaluate);
     if (typeof (result) == "string")
         result = '"' + result + '"';
     output.value = String(result);

@@ -153,11 +153,16 @@ function operate(): void {
   if (left == undefined || right == undefined)
     return;
 
-  let results: { [operator: string]: Types } = {
-    //@ts-ignore
-    "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right, "<<": left << right, ">>": left >> right
-  }
-  let result: Types = results[operator];
+  // let results: { [operator: string]: Types } = {
+  //   //@ts-ignore
+  //   "+": left + right, "-": left - right, "*": left * right, "/": left / right, "%": left % right, "<<": left << right, ">>": left >> right
+  // }
+  // let result: Types = results[operator];
+  let evaluate: string = "" + typeof (left) == "string" ? `'${left}'` : String(left);
+  evaluate += operator;
+  evaluate += typeof (right) == "string" ? `'${right}'` : String(right);
+  let result: Types = eval(evaluate);
+
   if (typeof (result) == "string")
     result = '"' + result + '"';
   output.value = String(result);
