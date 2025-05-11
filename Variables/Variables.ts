@@ -37,6 +37,8 @@ function parseQuery(): void {
   if (!query)
     return;
 
+  query = decodeURI(query);
+
   let variables: string[] = query.split("|");
   for (let variable of variables) {
     let quotes: string[] = variable.split(",").map(_value => '"' + _value + '"');
@@ -106,8 +108,10 @@ function drop(_event: DragEvent): void {
 
   if (parent.getAttribute("name") == "variable") {
     // drop on variable only if types match
-    if (parent.querySelector("select")!.value != data.type)
+    if (parent.querySelector("select")!.value != data.type) {
+      alert("Data types do not match!");
       return;
+    }
     else
       if (data.source == "result") {
         let operation: string = getInputByName("left").value + " ";
@@ -182,7 +186,7 @@ function validateVariables(): void {
       return;
     }
 
-    if (divs.find(_variable => _variable != variable && name.value == getInputByName("name", _variable).value)){
+    if (divs.find(_variable => _variable != variable && name.value == getInputByName("name", _variable).value)) {
       alert("A variable of that name already exists!");
       return;
     }

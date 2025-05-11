@@ -25,6 +25,7 @@ function parseQuery() {
     let query = location.search.slice(1);
     if (!query)
         return;
+    query = decodeURI(query);
     let variables = query.split("|");
     for (let variable of variables) {
         let quotes = variable.split(",").map(_value => '"' + _value + '"');
@@ -84,8 +85,10 @@ function drop(_event) {
     let parent = target.parentElement;
     if (parent.getAttribute("name") == "variable") {
         // drop on variable only if types match
-        if (parent.querySelector("select").value != data.type)
+        if (parent.querySelector("select").value != data.type) {
+            alert("Data types do not match!");
             return;
+        }
         else if (data.source == "result") {
             let operation = getInputByName("left").value + " ";
             operation += document.querySelector("select[name=operator]").value;
