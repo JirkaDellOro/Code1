@@ -13,10 +13,10 @@
 <body>
   <fieldset id="literal">
     <legend>Literal</legend>
-    <input type="url" name="type" readonly class="center" title="Infered type of the literal" placeholder="undefined">
     <input type="url" name="literal" class="input center drag"
       title="Type a literal value here, that will appear in code. Drag this value to use it."
       placeholder="Type a value here and drag it">
+    <input type="url" name="type" readonly class="center" title="Infered type of the literal" placeholder="undefined">
   </fieldset>
 
   <fieldset>
@@ -30,8 +30,18 @@
         <option value="*">*</option>
         <option value="/">/</option>
         <option value="%">%</option>
-        <option value="<<"><pre><<</pre></option>
-        <option value=">>"><pre>>></pre></option>
+        <option value="|">|</option>
+        <option value="&">&</option>
+        <option value="^">^</option>
+        <option value="||">||</option>
+        <option value="&&">&&</option>
+        <option value="^">^</option>
+        <option value="<<">
+          <pre><<</pre>
+        </option>
+        <option value=">>">
+          <pre>>></pre>
+        </option>
       </select>
       <input type="url" name="right" readonly class="left drop" placeholder="Drop here"
         title="Drop a literal value or a variable here">

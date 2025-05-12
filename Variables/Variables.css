@@ -11,6 +11,7 @@ html {
 }
 
 body {
+  max-width: 30em;
   display: grid;
   grid-template-rows: minmax(auto, auto) minmax(auto, auto) 1fr 1fr;
 }
@@ -45,7 +46,7 @@ fieldset#variables div {
 
 #literal {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 4fr 1fr;
 }
 
 #operation {
