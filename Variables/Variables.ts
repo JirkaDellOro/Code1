@@ -1,5 +1,5 @@
 window.addEventListener("load", start);
-window.addEventListener("dragstart", dragStart);
+window.addEventListener("dragstart", dragStart, true);
 window.addEventListener("drop", drop);
 window.addEventListener("change", change);
 // window.addEventListener("pointerdown", (_event: PointerEvent) => _event.preventDefault(), true);
