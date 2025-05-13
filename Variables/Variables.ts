@@ -1,5 +1,5 @@
 window.addEventListener("load", start);
-window.addEventListener("dragstart", dragStart, true);
+window.addEventListener("dragstart", dragStart);
 window.addEventListener("drop", drop);
 window.addEventListener("change", change);
 // window.addEventListener("pointerdown", (_event: PointerEvent) => _event.preventDefault(), true);
@@ -186,7 +186,7 @@ function validateVariables(): void {
     if (name.value == "")
       return;
 
-    if (!name.value.match("^[a-z]+(?:[A-Z][a-z0-9_]*)*$")) {
+    if (!name.value.match("^[a-z]+(?:[A-Za-z0-9_]*)*$")) {
       alert("Watch coding styleguide on naming variables!");
       return;
     }
