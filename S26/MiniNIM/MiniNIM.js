@@ -10,4 +10,4 @@ function calculateWin(_z0, _z1, _z2, _z3) {
     let result = _z0 ^ _z1 ^ _z2 ^ _z3;
     return result;
 }
-//# sourceMappingURL=FirstCode26.js.map
+//# sourceMappingURL=MiniNIM.js.map
